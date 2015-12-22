@@ -75,10 +75,10 @@ $query_builder = TRUE;
 
 $db['default'] = array(
 	'dsn'	=> '',
-	'hostname' => 'rdsrenv7vrenv7v.mysql.rds.aliyuncs.com:3306',
+	'hostname' => '.mysql.rds.aliyuncs.com:3306',
 	'username' => '',
 	'password' => '',
-	'database' => 'autelandb',
+	'database' => '',
 	'dbdriver' => 'mysql',
 	'dbprefix' => '',
 	'pconnect' => FALSE,

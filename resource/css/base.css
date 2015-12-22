@@ -1,0 +1,16 @@
+/*css reset-------------*/
+*{ margin:0; padding:0;}
+body{ font-size:12px; font-family: "宋体",Tahoma, Geneva, sans-serif; background:#fff;}
+table{font-size:12px; font-family:"宋体"; border-spacing:0; border:none;}
+li{ list-style:none;}
+img{ border:none;}
+a{ text-decoration:none;}
+
+
+.boxbox{ margin:15px auto; width:400px;}
+.select{ width:380px; height:30px; line-height:30px; background:"<?php echo base_url('resource/img/inputright.png');?>" no-repeat 370px 8px; border:1px solid #dcdcdc; padding:0 10px}
+.box{ width:400px; border:1px solid #dcdcdc; border-top:none;}
+.box p{ padding:10px;}
+.box p input,.box p select{ width:150px; height:24px; border:1px solid #dcdcdc; }
+.box p select{ width:80px}
+

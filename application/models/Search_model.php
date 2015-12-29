@@ -114,68 +114,54 @@ class Search_model extends CI_Model {
         if($this->input->post('mac') != NULL)
         {
             $sql.=" AND ap_mac like '%{$this->input->post('mac')}%'";
-            //$sql_total.=" AND tbl_a p_reg_infos.ap_mac='{$this->input->post('mac')}'";
         }
         if($this->input->post('apgroup') != NULL)
-        {
-            
+        {  
             $sql.=" AND ap_group like '%{$this->input->post('apgroup')}%'";
-            //$sql_total.=" AND tbl_ap_reg_infos.ap_group='{$this->input->post('apgroup')}'";
         }
         if($this->input->post('SwVer') != NULL)
         {
             $sql.=" AND sw_ver like '%{$this->input->post('swver')}%'";
-            //$sql_total.=" AND tbl_ap_reg_infos.sw_ver='{$this->input->post('swver')}'";
         }
         if($this->input->post('apstatus') != NULL)
         {
             $sql.=" AND ap_status like '%{$this->input->post('apstatus')}%'";
-            //$sql_total.=" AND tbl_ap_reg_infos.ap_status='{$this->input->post('apstatus')}'";
         }
         if($this->input->post('apip') != NULL)
         {
             $sql.=" AND apip like '%{$this->input->post('apip')}%'";
-            $sql_total.=" AND tal_ap_status_infos.apip='{$this->input->post('apip')}'";
         }
         if($this->input->post('FirstLoginTimebegin') != NULL)
         {
             $sql.=" AND first_login_time >='{$this->input->post('FirstLoginTimebegin')}'"; 
-            //$sql_total.=" AND tbl_ap_reg_infos.first_login_time >='{$this->input->post('FirstLoginTimebegin')}'"; 
         }
         if($this->input->post('FirstLoginTimeend') != NULL)
         {
             $sql.=" AND first_login_time <='{$this->input->post('FirstLoginTimeend')}'";
-            //$sql_total.=" AND tbl_ap_reg_infos.first_login_time <='{$this->input->post('FirstLoginTimeend')}'";
         }
         if($this->input->post('LastLoginTimebegin') != NULL)
         {
             $sql.=" AND last_login_time >='{$this->input->post('LastLoginTimebegin')}'";
-            //$sql_total.=" AND tbl_ap_reg_infos.last_login_time >='{$this->input->post('LastLoginTimebegin')}'";
         }
         if($this->input->post('LastLoginTimeend') != NULL)
         {
             $sql.=" AND last_login_time <='{$this->input->post('LastLoginTimeend')}'";
-           // $sql_total.=" AND tbl_ap_reg_infos.last_login_time <='{$this->input->post('LastLoginTimeend')}'";
         }
         if($this->input->post('apsn') != NULL)
         {
             $sql.=" AND ap_sn like '%{$this->input->post('apsn')}%'";
-            //$sql_total.=" AND tbl_ap_reg_infos.ap_sn='{$this->input->post('apsn')}'";
         }
         if($this->input->post('webrsrcver') != NULL)
         {
             $sql.=" AND web_rsrc_ver like '%{$this->input->post('webrsrcver')}%'";
-            $sql_total.=" AND tbl_ap_reg_infos.web_rsrc_ver='{$this->input->post('webrsrcver')}'";
         }
         if($this->input->post('apiparea') != NULL)
         {
             $sql.=" AND apiparea like '%{$this->input->post('apiparea')}%'";
-            //$sql_total.=" AND tbl_ap_reg_infos.apiparea='{$this->input->post('apiparea')}'";
         }
         
         return $sql;
     }
-   // public function pagination_handle()
     public function upload_handle()
     {
         $handle = fopen($filename,'r');

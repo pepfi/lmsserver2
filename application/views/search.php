@@ -22,13 +22,6 @@
     <!-- Custom styles -->
     <link href="<?php echo base_url('resource/css/style.css');?>" rel="stylesheet">
     <link href="<?php echo base_url('resource/css/style-responsive.css');?>" rel="stylesheet" />
-           
-    <!-- HTML5 shim and Respond.js IE8 support of HTML5 -->
-    <!--[if lt IE 9]>
-      <script src="js/html5shiv.js"></script>
-      <script src="js/respond.min.js"></script>
-      <script src="js/lte-ie7.js"></script>
-    <![endif]-->
   </head>
 
   <body class="post-template nav-closed">
@@ -112,33 +105,33 @@
               <!-- sidebar menu start-->
               <ul class="sidebar-menu">                
                   <li class="active">
-                      <a class="" href="home">
+                      <a class="" href="<?php echo site_url('home');?>">
                           <i class="icon_house_alt"></i>
                           <span>仪表盘</span>
                       </a>
                   </li>
 	               <li class="">
-                      <a class="" href="search">
+                      <a class="" href="<?php echo site_url('search');?>">
                           <i class="icon_search"></i>
                           <span>设备管理</span>
                       </a>
                   </li>      
 
                   <li>
-                      <a class="" href="widgets">
+                      <a class="" href="<?php echo site_url('widgets');?>">
                           <i class="icon_genius"></i>
                           <span>用户</span>
                       </a>
                   </li>
                   <li>                     
-                      <a class="" href="chart_chartjs">
+                      <a class="" href="<?php echo site_url('chart_chartjs');?>">
                           <i class="icon_piechart"></i>
                           <span>统计</span>                          
                       </a>
                                          
                   </li>
                   <li>                     
-                      <a class="" href="basic_table">
+                      <a class="" href="<?php echo site_url('basic_table');?>">
                           <i class="icon_table"></i>
                           <span>日志</span>                          
                       </a>
@@ -167,9 +160,8 @@
 				   <div class="boxbox">
 					   <button class="select" id="APselect">AP查询</button>
 					   <div id="searchSlide">
-							<form  method="POST" class="form-inline">
-								<?php echo validation_errors(); ?>
-								<?php echo form_open('search/index'); ?>
+							<form  method="POST" class="form-inline" action="<?php echo site_url('search/search');?>">
+                                
 								<div class="form-group" >
 									<label>MAC:</label>
 									<input class="form-control " type="text" name="mac" id="mac">
@@ -333,7 +325,7 @@
                                   </div>
                               </div>
                           </div>
-                          <a type="button" class="btn btn-info" href="download/do_download">下载</a>
+                          <a type="button" class="btn btn-info" href="search/download">下载</a>
                           <button type="button" class="btn btn-warning" data-toggle="modal" data-target="#push_Modal" data-whatever="@mdo">上传</button>
                           <div class="modal fade" id="push_Modal" tabindex="-1" role="dialog" aria-labelledby="push_ModalLabel" >
                               <div class="modal-dialog" role="document">
@@ -343,8 +335,9 @@
                                     <h4 class="modal-title" id="push_ModalLab el">上传文件</h4>
                                     </div>
                                     <div class="modal-body"> 
+                                       
 					                    <?php echo $error;?>
-                                        <?php echo form_open_multipart('upload/index');?>
+                                        <?php echo form_open_multipart('search/upload');?>
                                             <div class="form-group">
                                                 <label for="message-text" class="control-label">选择文件:</label>
                                                 <input type="file" class="form-control" id="File1" name="File1" size="20"/>
@@ -389,14 +382,12 @@
                           </div>
                           <button type="button" class="btn btn-primary">帮助</button>
                           <div class = "clearfix pagea">
-                              <form action="<?php echo $_SERVER['PHP_SELF']; ?>" method="POST" class="right clearfix">
-                                  <?php echo validation_errors(); ?>
-								  <?php echo form_open('search/set_pages'); ?>
+                              <form action="<?php echo site_url('search/pagination');?>" method="POST" class="right clearfix">
                                   <div class="right pagebox">
                                       <label>显示页数:</label>
-                                      <input type="text" id="perPageNum" />
+                                      <input type="text" id="perPageNum" name="perPageNum" />
                                       <label>跳转到第</label>
-                                      <input type="text" id="jumpPageNum"/>
+                                      <input type="text" id="jumpPageNum" name="jumpPageNum" />
                                       <label>页</label>
                                       <input class="btn" type="submit" id="set_page" value="确定" />
                                       <label class="left">总共：</label>
@@ -404,7 +395,6 @@
                                       <?php echo $page;?>
                                   </div>
                               </form>
-                              
                           </div>
                           <table class="table table-striped table-advance table-hover" id="table">
                            <tbody>
@@ -423,11 +413,11 @@
 				                 <th> 更多操作</th>
                               </tr>
                               
-                                   <?php foreach($info as $row):?>
+                                   <?php foreach($res as $row):?>
                                        
                                         <tr>
                                             <td><input type="checkbox" id="select_check" name="checkname"/></td>
-                                            <td class="ap_mac" name="ap_mac"><?php echo $row['ap_mac'] ?></td>
+                                            <td class="ap_mac" name="ap_mac"><?php echo $row['ap_mac']; ?></td>
                                             <td><?php echo $row['ap_sn'] ?></td>
                                             <td><?php echo $row['sw_ver'] ?></td>
                                             <td><?php echo $row['web_rsrc_ver'] ?></td>

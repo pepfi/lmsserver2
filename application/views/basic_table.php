@@ -90,33 +90,33 @@
               <!-- sidebar menu start-->
               <ul class="sidebar-menu">                
                   <li class="active">
-                      <a class="" href="home">
+                      <a class="" href="<?php echo site_url('home');?>">
                           <i class="icon_house_alt"></i>
                           <span>仪表盘</span>
                       </a>
                   </li>
 	               <li class="">
-                      <a class="" href="search">
+                      <a class="" href="<?php echo site_url('search');?>">
                           <i class="icon_search"></i>
                           <span>设备管理</span>
                       </a>
                   </li>      
 
                   <li>
-                      <a class="" href="widgets">
+                      <a class="" href="<?php echo site_url('widgets');?>">
                           <i class="icon_genius"></i>
                           <span>用户</span>
                       </a>
                   </li>
                   <li>                     
-                      <a class="" href="chart_chartjs">
+                      <a class="" href="<?php echo site_url('chart_chartjs');?>">
                           <i class="icon_piechart"></i>
                           <span>统计</span>                          
                       </a>
                                          
                   </li>
                   <li>                     
-                      <a class="" href="basic_table">
+                      <a class="" href="<?php echo site_url('basic_table');?>">
                           <i class="icon_table"></i>
                           <span>日志</span>                          
                       </a>

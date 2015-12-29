@@ -7,15 +7,15 @@ class Login extends CI_Controller {
         parent::__construct();
 
         $this->load->model('Login_model');
-        $this->load->library('form_validation');
-        $this->load->helper('form');
-        $this->load->helper('url');
+       // $this->load->library('form_validation');
+       // $this->load->helper('form');
+       // $this->load->helper('url');
         
         $this->load->model('Home_model');
         /*session&cookie start by wmg*/
-        $this->load->library('session');
-        $this->load->helper('cookie');
-        $this->load->helper('array');
+       // $this->load->library('session');
+       // $this->load->helper('cookie');
+       // $this->load->helper('array');
         /*session&cookie end by wmg*/
             
     }
@@ -27,9 +27,7 @@ class Login extends CI_Controller {
         $this->load->view('admin/login_form', $data);   
 
     }
-    function getProvince($ip_query_result) {
-        return substr($ip_query_result,0,6);
-    }
+
 
     function validate_credentials()
     {
@@ -44,9 +42,11 @@ class Login extends CI_Controller {
                     //'user_id' => $this->admin_model->member_id($this->input->post('username'))
                     );
             $this->session->set_userdata($data);
+            $_SESSION['perPageNum'] = 20;
+            $_SESSION['jumpPageNum'] = 1;
             //echo 'success';
            //$this->load->view('admin/login_success');
-            redirect('home');
+            redirect('search');
             
         }
         else
@@ -56,7 +56,12 @@ class Login extends CI_Controller {
             $this->load->view('admin/login_form', $data);
         }
     }
-
+    
+    
+    function getProvince($ip_query_result) {
+        return substr($ip_query_result,0,6);
+    }
+    
     public function verification()
     {
         

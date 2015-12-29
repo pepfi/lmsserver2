@@ -28,6 +28,7 @@ class Search_model extends CI_Model {
             $_SESSION['jumpPageNum'] = 1;
         }
         $offset = ($current_page - 1) * $config['per_page'] ;
+        $config['base_url'] = 'http://localhost/index.php/search';
         $config['prev_link'] = '上一页';
         $config['next_link'] = '下一页';
         $config['total_rows'] = $this->db->count_all('tbl_ap_reg_infos');//数据总条数
@@ -81,6 +82,7 @@ class Search_model extends CI_Model {
             $_SESSION['jumpPageNum'] = 1;
         }
         $offset = ($current_page - 1) * $config['per_page'];
+        $config['base_url'] = 'http://localhost/index.php/search/search';
         $config['prev_link'] = '上一页';
         $config['next_link'] = '下一页';
         $config['total_rows'] = $this->db->query("$sql")->num_rows();//数据总条数    

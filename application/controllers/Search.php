@@ -25,13 +25,8 @@ class Search extends CI_Controller {
             echo '请选择要导入的CSV文件!';
             exit;
         }
-        $query = $this->search_model->upload_handle();
-        if($query)
-        {
-            echo '导入成功';
-        }else{
-            echo '导入失败';
-        }
+        $this->search_model->upload_handle($filename);
+      
     }
     public function pagination()
     {    
@@ -68,6 +63,11 @@ class Search extends CI_Controller {
         $sql = $this->search_model->search_sql();
         $data = $this->search_model->search_pagination_handle($sql);
         $this->load->view('search', $data);
+        
+    }
+    
+    public function sendOrder()
+    {
         
     }
      

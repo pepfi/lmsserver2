@@ -91,7 +91,7 @@ class Search_model extends CI_Model {
 	    $total_page = ceil($config['total_rows'] / $config['per_page']);
         $this->pagination->initialize($config);
         return array(
-            'res' => $this->db->query("{$sql} order by 'id desc' limit 0,{$config['per_page']}")->result_array(),
+            'res' => $this->db->query("{$sql} order by 'id desc' limit {$offset},{$config['per_page']}")->result_array(),
             'total' => $config['total_rows'],
             'current_page' => $config['per_page'],
             'page' => $this->pagination->create_links(),
@@ -162,38 +162,28 @@ class Search_model extends CI_Model {
         
         return $sql;
     }
-    public function upload_handle()
+    
+    public function upload_handle($filename)
     {
+        if(empty($filename))
+        {
+            echo '请选择要导入的CSV文件!';
+            exit;
+        }
         $handle = fopen($filename,'r');
         $result = array();
         $n = 0;
-        $data = fgetcsv($handle);
-        $num = count($data);
-        $read_times = $read_times = ceil($num / 10000) +1;
-        $data_values = '';
-        for($i = 0; $i < $read_times; $i++)
+        while($data = fgetcsv($handle,10000))
         {
-            for($j = 0;$j < 10000;$j++)
+            $num = count($data);
+            for($i = 0; $i < $num; $i++)
             {
-                $result[$i][$j] = $data[$j];
+                $result[$n][$i] = $data[$i];
             }
-            $len_result = count($result) - 1;
-//            for($k = 1;$k <$k < len_result; $k++)
-//            {
-//                $data_values .= "('$result[$k][0]','$result[$k][1]','$result[$k][2]','$result[$k][3]','$result[$k][4]','$result[$k][5]','$result[$k][6]','$result[$k][7]','$result[$k][8]','$result[$k][9]','$result[$k][10]','$result[$k][11]','$result[$k][12]','$result[$i][13]','$result[$i][14]','$result[$i][15]','$result[$i][16]','$result[$i][17]','$result[$i][18]','$result[$i][19]','$result[$i][20]','$result[$i][21]','$result[$i][22]','$result[$i][23]','$result[$i][24]','$result[$i][25]','$result[$i][26]','$result[$i][27]','$result[$i][28]','$result[$i][29]','$result[$i][30]','$result[$i][31]','$result[$i][32]','$result[$i][33]','$result[$i][34]','$result[$i][35]','$result[$i][36]','$result[$i][37]','$result[$i][38]','$result[$i][39]','$result[$i][40]','$result[$i][41]','$result[$i][42]','$result[$i][43]','$result[$i][44]'),";
-//            }
-            
+            $n++;
         }
-//        while($data = fgetcsv($handle))
-//        {
-//            $num = count($data);
-//            for($i = 0; $i < $num; $i++)
-//            {
-//                $result[$n][$i] = $data[$i];
-//            }
-//            $n++;
-//        }
         
+        //print_r($result);
         $len_result = count($result) - 1;
         if($len_result === 0)
         {
@@ -201,16 +191,71 @@ class Search_model extends CI_Model {
             exit;
         }
         $data_values = '';
-            for($i=1;$i < $len_result;$i++)
-            {  
-                $data_values .= "('$result[$i][0]','$result[$i][1]','$result[$i][2]','$result[$i][3]','$result[$i][4]','$result[$i][5]','$result[$i][6]','$result[$i][7]','$result[$i][8]','$result[$i][9]','$result[$i][10]','$result[$i][11]','$result[$i][12]','$result[$i][13]','$result[$i][14]','$result[$i][15]','$result[$i][16]','$result[$i][17]','$result[$i][18]','$result[$i][19]','$result[$i][20]','$result[$i][21]','$result[$i][22]','$result[$i][23]','$result[$i][24]','$result[$i][25]','$result[$i][26]','$result[$i][27]','$result[$i][28]','$result[$i][29]','$result[$i][30]','$result[$i][31]','$result[$i][32]','$result[$i][33]','$result[$i][34]','$result[$i][35]','$result[$i][36]','$result[$i][37]','$result[$i][38]','$result[$i][39]','$result[$i][40]','$result[$i][41]','$result[$i][42]','$result[$i][43]','$result[$i][44]'),";
-            }
-            $data_values = substr($data_values,0,-1);
-            fclose($handle);
-            $query = $this->db->query("insert into tbl_ap_reg_infos (ap_mac,ap_sn,ap_vendor,ap_model,ap_ver,pcba_model,pcba_version,hw_mac,hw_pn,hw_ver,memory_size,flash_size,flash_vendor,flash_psn,hdd_vendor,hdd_model,hdd_s_n,hdd_disksize,hdd_fw_ver,sd_model,sd_disksize,ext_wifi_model,ext_wifi_m_a_c,ext_wifi_s_n,c_wan_count,c_wan0_model,c_wan0_meid,c_wan0_fw_ver,c_wan0_iccid,c_wan0_carrier,c_wan1_model,c_wan1_meid,c_wan1_fw_ver,c_wan1_iccid,c_wan1_carrier,sw_ver,web_frame_ver,web_rsrc_ver,cfg_ver,last_login_time,last_login_lat,last_login_lng,first_login_time,first_login_lat,first_login_lng) values {$data_values}");
-            return $query;
+        for($i=1;$i < $len_result;$i++)
+        {
+            $ap_mac = $result[$i][0];
+            $ap_sn = $result[$i][1];
+            $ap_vendor = $result[$i][2];
+            $ap_model = $result[$i][3];
+            $ap_ver = $result[$i][4];
+            $pcba_model = $result[$i][5];
+            $pcba_version = $result[$i][6];
+            $hw_mac = $result[$i][7];
+            $hw_pn = $result[$i][8];
+            $hw_ver = $result[$i][9];
+            $memory_size = $result[$i][10];
+            $flash_size = $result[$i][11];
+            $flash_vendor = $result[$i][12];
+            $flash_psn = $result[$i][13];
+            $hdd_vendor = $result[$i][14];
+            $hdd_model = $result[$i][15];
+            $hdd_s_n = $result[$i][16];
+            $hdd_disksize = $result[$i][17];
+            $hdd_fw_ver = $result[$i][18];
+            $sd_model = $result[$i][19];
+            $sd_disksize = $result[$i][20];
+            $ext_wifi_model = $result[$i][21];
+            $ext_wifi_m_a_c = $result[$i][22];
+            $ext_wifi_s_n = $result[$i][23];
+            $c_wan_count = $result[$i][24];
+            $c_wan0_model = $result[$i][25];
+            $c_wan0_meid = $result[$i][26];
+            $c_wan0_fw_ver = $result[$i][27];
+            $c_wan0_iccid = $result[$i][28];
+            $c_wan0_carrier = $result[$i][29];
+            $c_wan1_model = $result[$i][30];
+            $c_wan1_meid = $result[$i][31];
+            $c_wan1_fw_ver = $result[$i][32];
+            $c_wan1_iccid = $result[$i][33];
+            $c_wan1_carrier = $result[$i][34];
+            $sw_ver = $result[$i][35];
+            $web_frame_ver = $result[$i][36];
+            $web_rsrc_ver = $result[$i][37];
+            $cfg_ver = $result[$i][38];
+            $last_login_time = $result[$i][39];
+            $last_login_lat = $result[$i][40];
+            $last_login_lng = $result[$i][41];
+            $first_login_time = $result[$i][42];
+            $first_login_lat = $result[$i][43];
+            $first_login_lng = $result[$i][44];   
+            $data_values .= "('$ap_mac','$ap_sn','$ap_vendor','$ap_model','$ap_ver','$pcba_model','$pcba_version','$hw_mac','$hw_pn','$hw_ver','$memory_size','$flash_size','$flash_vendor','$flash_psn','$hdd_vendor','$hdd_model','$hdd_s_n','$hdd_disksize','$hdd_fw_ver','$sd_model','$sd_disksize','$ext_wifi_model','$ext_wifi_m_a_c','$ext_wifi_s_n','$c_wan_count','$c_wan0_model','$c_wan0_meid','$c_wan0_fw_ver','$c_wan0_iccid','$c_wan0_carrier','$c_wan1_model','$c_wan1_meid','$c_wan1_fw_ver','$c_wan1_iccid','$c_wan1_carrier','$sw_ver','$web_frame_ver','$web_rsrc_ver','$cfg_ver','$last_login_time','$last_login_lat','$last_login_lng','$first_login_time','$first_login_lat','$first_login_lng'),";
+        }
+        $data_values = substr($data_values,0,-1);
+        fclose($handle);
+        $query_del = $this->db->query("TRUNCATE TABLE tbl_ap_reg_infos");
+        if(!$query_del)
+        {
+            echo "11111";
+        }
+        $query = $this->db->query("insert into tbl_ap_reg_infos (ap_mac,ap_sn,ap_vendor,ap_model,ap_ver,pcba_model,pcba_version,hw_mac,hw_pn,hw_ver,memory_size,flash_size,flash_vendor,flash_psn,hdd_vendor,hdd_model,hdd_s_n,hdd_disksize,hdd_fw_ver,sd_model,sd_disksize,ext_wifi_model,ext_wifi_m_a_c,ext_wifi_s_n,c_wan_count,c_wan0_model,c_wan0_meid,c_wan0_fw_ver,c_wan0_iccid,c_wan0_carrier,c_wan1_model,c_wan1_meid,c_wan1_fw_ver,c_wan1_iccid,c_wan1_carrier,sw_ver,web_frame_ver,web_rsrc_ver,cfg_ver,last_login_time,last_login_lat,last_login_lng,first_login_time,first_login_lat,first_login_lng) values {$data_values}");
+        if($query)
+        {
+            echo '导入成功';
+        }else{
+            echo '导入失败';
+        }
     }
-
+        
     public function download_handle()
     {
         $total_count = $this->db->query("select count(*) from tbl_ap_reg_infos");
@@ -225,6 +270,11 @@ class Search_model extends CI_Model {
         }
         return $str;
     } 
+    
+    public function sendOrderHandle()
+    {
+        
+    }
 }
 
 #INNER JOIN ON ORDER BY tbl_ap_reg_infos.LastLoginTime 

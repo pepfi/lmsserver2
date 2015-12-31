@@ -493,6 +493,15 @@
 			$(".searchSlide").slideToggle();
 		})
 	})
+    
+    var order = order_Div.firstChild;
+    var orderButton = submit_Div.firstChild;   
+    orderButton.onclick = function(){
+        var order_string = order.value;
+        var Macs_string = getMac();
+        var Macs_order_string = Macs_string + order_string;
+        window.open('/device/order/'+Macs_order_string, '_self');
+    }
   </script>
   <script src="<?php echo base_url('resource/js/scripts.js');?>"></script>
   </body>

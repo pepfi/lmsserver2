@@ -25,7 +25,8 @@ class Search extends CI_Controller {
             echo '请选择要导入的CSV文件!';
             exit;
         }
-        $this->search_model->upload_handle($filename);
+        $uploadFlag = $this->search_model->upload_handle($filename);
+        redirect('search');
       
     }
     public function pagination()

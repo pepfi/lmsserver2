@@ -416,7 +416,7 @@
                                    <?php foreach($res as $row):?>
                                        
                                         <tr>
-                                            <td><input type="checkbox" id="select_check" name="checkname"/></td>
+                                            <td><input type="checkbox" id="select_check" name="checkedDevice"/></td>
                                             <td class="ap_mac" name="ap_mac"><?php echo $row['ap_mac']; ?></td>
                                             <td><?php echo $row['ap_sn'] ?></td>
                                             <td><?php echo $row['sw_ver'] ?></td>
@@ -494,6 +494,20 @@
 		})
 	})
     
+    
+    function getMac(){
+        var checkedDevice = document.getElementsByName('checkedDevice');
+        var Mac_name_string = '';
+        for(var i=0; i< checkedDevice.length; i++){
+            if(checkedDevice[i].checked == true){
+                var Mac_obj = checkedDevice[i].parentNode.nextSibling.nextSibling;
+                var Mac_name = Mac_obj.innerHTML;  
+                Mac_name_string = Mac_name_string + Mac_name + '_';
+            } 
+        }
+        return Mac_name_string;
+    }
+      
     var order = order_Div.firstChild;
     var orderButton = submit_Div.firstChild;   
     orderButton.onclick = function(){

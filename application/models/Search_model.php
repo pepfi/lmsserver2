@@ -165,102 +165,37 @@ class Search_model extends CI_Model {
     
     public function upload_handle($filename)
     {
-        if(empty($filename))
-        {
-            echo '请选择要导入的CSV文件!';
-            exit;
-        }
         $handle = fopen($filename,'r');
         $result = array();
         $n = 0;
-        while($data = fgetcsv($handle,10000))
-        {
-            $num = count($data);
-            for($i = 0; $i < $num; $i++)
-            {
-                $result[$n][$i] = $data[$i];
-            }
-            $n++;
-        }
-        
-        //print_r($result);
-        $len_result = count($result) - 1;
-        if($len_result === 0)
-        {
-            echo '数据为空';
-            exit;
-        }
-        $data_values = '';
-        for($i=1;$i < $len_result;$i++)
-        {
-            $ap_mac = $result[$i][0];
-            $ap_sn = $result[$i][1];
-            $ap_vendor = $result[$i][2];
-            $ap_model = $result[$i][3];
-            $ap_ver = $result[$i][4];
-            $pcba_model = $result[$i][5];
-            $pcba_version = $result[$i][6];
-            $hw_mac = $result[$i][7];
-            $hw_pn = $result[$i][8];
-            $hw_ver = $result[$i][9];
-            $memory_size = $result[$i][10];
-            $flash_size = $result[$i][11];
-            $flash_vendor = $result[$i][12];
-            $flash_psn = $result[$i][13];
-            $hdd_vendor = $result[$i][14];
-            $hdd_model = $result[$i][15];
-            $hdd_s_n = $result[$i][16];
-            $hdd_disksize = $result[$i][17];
-            $hdd_fw_ver = $result[$i][18];
-            $sd_model = $result[$i][19];
-            $sd_disksize = $result[$i][20];
-            $ext_wifi_model = $result[$i][21];
-            $ext_wifi_m_a_c = $result[$i][22];
-            $ext_wifi_s_n = $result[$i][23];
-            $c_wan_count = $result[$i][24];
-            $c_wan0_model = $result[$i][25];
-            $c_wan0_meid = $result[$i][26];
-            $c_wan0_fw_ver = $result[$i][27];
-            $c_wan0_iccid = $result[$i][28];
-            $c_wan0_carrier = $result[$i][29];
-            $c_wan1_model = $result[$i][30];
-            $c_wan1_meid = $result[$i][31];
-            $c_wan1_fw_ver = $result[$i][32];
-            $c_wan1_iccid = $result[$i][33];
-            $c_wan1_carrier = $result[$i][34];
-            $sw_ver = $result[$i][35];
-            $web_frame_ver = $result[$i][36];
-            $web_rsrc_ver = $result[$i][37];
-            $cfg_ver = $result[$i][38];
-            $last_login_time = $result[$i][39];
-            $last_login_lat = $result[$i][40];
-            $last_login_lng = $result[$i][41];
-            $first_login_time = $result[$i][42];
-            $first_login_lat = $result[$i][43];
-            $first_login_lng = $result[$i][44];   
-            $data_values .= "('$ap_mac','$ap_sn','$ap_vendor','$ap_model','$ap_ver','$pcba_model','$pcba_version','$hw_mac','$hw_pn','$hw_ver','$memory_size','$flash_size','$flash_vendor','$flash_psn','$hdd_vendor','$hdd_model','$hdd_s_n','$hdd_disksize','$hdd_fw_ver','$sd_model','$sd_disksize','$ext_wifi_model','$ext_wifi_m_a_c','$ext_wifi_s_n','$c_wan_count','$c_wan0_model','$c_wan0_meid','$c_wan0_fw_ver','$c_wan0_iccid','$c_wan0_carrier','$c_wan1_model','$c_wan1_meid','$c_wan1_fw_ver','$c_wan1_iccid','$c_wan1_carrier','$sw_ver','$web_frame_ver','$web_rsrc_ver','$cfg_ver','$last_login_time','$last_login_lat','$last_login_lng','$first_login_time','$first_login_lat','$first_login_lng'),";
-        }
-        $data_values = substr($data_values,0,-1);
-        fclose($handle);
+        $uploadFlag = 0;
         $query_del = $this->db->query("TRUNCATE TABLE tbl_ap_reg_infos");
-        if(!$query_del)
+        if($query_del)
         {
-            echo "11111";
-        }
-        $query = $this->db->query("insert into tbl_ap_reg_infos (ap_mac,ap_sn,ap_vendor,ap_model,ap_ver,pcba_model,pcba_version,hw_mac,hw_pn,hw_ver,memory_size,flash_size,flash_vendor,flash_psn,hdd_vendor,hdd_model,hdd_s_n,hdd_disksize,hdd_fw_ver,sd_model,sd_disksize,ext_wifi_model,ext_wifi_m_a_c,ext_wifi_s_n,c_wan_count,c_wan0_model,c_wan0_meid,c_wan0_fw_ver,c_wan0_iccid,c_wan0_carrier,c_wan1_model,c_wan1_meid,c_wan1_fw_ver,c_wan1_iccid,c_wan1_carrier,sw_ver,web_frame_ver,web_rsrc_ver,cfg_ver,last_login_time,last_login_lat,last_login_lng,first_login_time,first_login_lat,first_login_lng) values {$data_values}");
-        if($query)
-        {
-            echo '导入成功';
-        }else{
-            echo '导入失败';
+            while($data = fgetcsv($handle))
+            {
+                if($data[0] == 'ap_mac')
+                {
+                    continue;
+                }
+                $values = "('$data[0]','$data[1]','$data[2]','$data[3]','$data[4]','$data[5]','$data[6]','$data[7]','$data[8]','$data[9]','$data[10]','$data[11]','$data[12]','$data[13]','$data[14]','$data[15]','$data[16]','$data[17]','$data[18]','$data[19]','$data[20]','$data[21]','$data[22]','$data[23]','$data[24]','$data[25]','$data[26]','$data[27]','$data[28]','$data[29]','$data[30]','$data[31]','$data[32]','$data[33]','$data[34]','$data[35]','$data[36]','$data[37]','$data[38]','$data[39]','$data[40]','$data[41]','$data[42]','$data[43]','$data[44]')";
+                $sql = "insert into tbl_ap_reg_infos (ap_mac,ap_sn,ap_vendor,ap_model,ap_ver,pcba_model,pcba_version,hw_mac,hw_pn,hw_ver,memory_size,flash_size,flash_vendor,flash_psn,hdd_vendor,hdd_model,hdd_s_n,hdd_disksize,hdd_fw_ver,sd_model,sd_disksize,ext_wifi_model,ext_wifi_m_a_c,ext_wifi_s_n,c_wan_count,c_wan0_model,c_wan0_meid,c_wan0_fw_ver,c_wan0_iccid,c_wan0_carrier,c_wan1_model,c_wan1_meid,c_wan1_fw_ver,c_wan1_iccid,c_wan1_carrier,sw_ver,web_frame_ver,web_rsrc_ver,cfg_ver,last_login_time,last_login_lat,last_login_lng,first_login_time,first_login_lat,first_login_lng) values {$values}";
+                $query = $this->db->query($sql);
+                if(!$query)
+                {
+                    $uploadFlag = 1;
+                    return $uploadFlag;
+                }
+            }
+            fclose($handle);
+            return uploadFlag;
         }
     }
-        
     public function download_handle()
     {
         $total_count = $this->db->query("select count(*) from tbl_ap_reg_infos");
-        $read_times = ceil($total_count / 10000) +1;
-         $str = "ap_mac,ap_sn,ap_vendor,ap_model,ap_ver,pcba_model,pcba_version,hw_mac,hw_pn,hw_ver,memory_size,flash_size,flash_vendor,flash_psn,hdd_vendor,hdd_model,hdd_s_n,hdd_disksize,hdd_fw_ver,sd_model,sd_disksize,ext_wifi_model,ext_wifi_m_a_c,ext_wifi_s_n,c_wan_count,c_wan0_model,c_wan0_meid,c_wan0_fw_ver,c_wan0_iccid,c_wan0_carrier,c_wan1_model,c_wan1_meid,c_wan1_fw_ver,c_wan1_iccid,c_wan1_carrier,sw_ver,web_frame_ver,web_rsrc_ver,cfg_ver,last_login_time,last_login_lat,last_login_lng,first_login_time,first_login_lat,first_login_lng\n";
+        $read_times = ceil($total_count / 10000);
+        $str = "ap_mac,ap_sn,ap_vendor,ap_model,ap_ver,pcba_model,pcba_version,hw_mac,hw_pn,hw_ver,memory_size,flash_size,flash_vendor,flash_psn,hdd_vendor,hdd_model,hdd_s_n,hdd_disksize,hdd_fw_ver,sd_model,sd_disksize,ext_wifi_model,ext_wifi_m_a_c,ext_wifi_s_n,c_wan_count,c_wan0_model,c_wan0_meid,c_wan0_fw_ver,c_wan0_iccid,c_wan0_carrier,c_wan1_model,c_wan1_meid,c_wan1_fw_ver,c_wan1_iccid,c_wan1_carrier,sw_ver,web_frame_ver,web_rsrc_ver,cfg_ver,last_login_time,last_login_lat,last_login_lng,first_login_time,first_login_lat,first_login_lng\n";
         for($i = 0; $i < $read_times; $i++)
         {
             $result = $this->db->query("select * from tbl_ap_reg_infos limit {$i},1000")->result_array();

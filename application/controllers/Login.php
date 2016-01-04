@@ -46,7 +46,7 @@ class Login extends CI_Controller {
             $_SESSION['jumpPageNum'] = 1;
             //echo 'success';
            //$this->load->view('admin/login_success');
-            redirect('search');
+            redirect('home');
             
         }
         else

@@ -188,17 +188,17 @@ class Search_model extends CI_Model {
                 }
             }
             fclose($handle);
-            return uploadFlag;
+            return $uploadFlag;
         }
     }
     public function download_handle()
     {
-        $total_count = $this->db->query("select count(*) from tbl_ap_reg_infos");
+        $total_count = $this->db->query("select * from tbl_ap_reg_infos")->num_rows();
         $read_times = ceil($total_count / 10000);
         $str = "ap_mac,ap_sn,ap_vendor,ap_model,ap_ver,pcba_model,pcba_version,hw_mac,hw_pn,hw_ver,memory_size,flash_size,flash_vendor,flash_psn,hdd_vendor,hdd_model,hdd_s_n,hdd_disksize,hdd_fw_ver,sd_model,sd_disksize,ext_wifi_model,ext_wifi_m_a_c,ext_wifi_s_n,c_wan_count,c_wan0_model,c_wan0_meid,c_wan0_fw_ver,c_wan0_iccid,c_wan0_carrier,c_wan1_model,c_wan1_meid,c_wan1_fw_ver,c_wan1_iccid,c_wan1_carrier,sw_ver,web_frame_ver,web_rsrc_ver,cfg_ver,last_login_time,last_login_lat,last_login_lng,first_login_time,first_login_lat,first_login_lng\n";
         for($i = 0; $i < $read_times; $i++)
         {
-            $result = $this->db->query("select * from tbl_ap_reg_infos limit {$i},1000")->result_array();
+            $result = $this->db->query("select * from tbl_ap_reg_infos limit {$i},10000")->result_array();
             foreach($result as $row)
             {        $str.=$row['ap_mac'].",".$row['ap_sn'].",".$row['ap_vendor'].",".$row['ap_model'].",".$row['ap_ver'].",".$row['pcba_model'].",".$row['pcba_version'].",".$row['hw_mac'].",".$row['hw_pn'].",".$row['hw_ver'].",".$row['memory_size'].",".$row['flash_size'].",".$row['flash_vendor'].",".$row['flash_psn'].",".$row['hdd_vendor'].",".$row['hdd_model'].",".$row['hdd_s_n'].",".$row['hdd_disksize'].",".$row['hdd_fw_ver'].",".$row['sd_model'].",".$row['sd_disksize'].",".$row['ext_wifi_model'].",".$row['ext_wifi_m_a_c'].",".$row['ext_wifi_s_n'].",".$row['c_wan_count'].",".$row['c_wan0_model'].",".$row['c_wan0_meid'].",".$row['c_wan0_fw_ver'].",".$row['c_wan0_iccid'].",".$row['c_wan0_carrier'].",".$row['c_wan1_model'].",".$row['c_wan1_meid'].",".$row['c_wan1_fw_ver'].",".$row['c_wan1_iccid'].",".$row['c_wan1_carrier'].",".$row['sw_ver'].",".$row['web_frame_ver'].",".$row['web_rsrc_ver'].",".$row['cfg_ver'].",".$row['last_login_time'].",".$row['last_login_lat'].",".$row['last_login_lng'].",".$row['first_login_time'].",".$row['first_login_lat'].",".$row['first_login_lng']."\n";
             }

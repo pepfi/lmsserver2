@@ -12,21 +12,24 @@ class Search extends CI_Controller {
         $filename = date('Ymd').'.csv';
         header("Cache-Control: must-revalidate, post-check=0, pre-check=0"); 
         header("Content-Type: application/vnd.ms-execl");
-        $str = $this->search_model->download_handle();
-        force_download($filename,$str);
+        $data = $this->search_model->download_handle();
+        force_download($filename,$data);
+        
     }
     
     /*上传文件*/
     public function upload()
     {
         $filename = $_FILES['File1']['tmp_name'];
-        if(empty($filename))
+        echo $filename;
+        if(!isset($filename))
         {
             echo '请选择要导入的CSV文件!';
             exit;
         }
         $uploadFlag = $this->search_model->upload_handle($filename);
-        redirect('search');
+        echo $uploadFlag;
+       // redirect('search');
       
     }
     public function pagination()

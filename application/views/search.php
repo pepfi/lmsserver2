@@ -340,7 +340,7 @@
                                         <?php echo form_open_multipart('search/upload');?>
                                             <div class="form-group">
                                                 <label for="message-text" class="control-label">选择文件:</label>
-                                                <input type="file" class="form-control" id="File1" name="File1" size="20"/>
+                                                <input type="file" class="form-control" id="File1" name="File1"/>
                                             </div>
                                             <div class="modal-footer">
                                                 <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>

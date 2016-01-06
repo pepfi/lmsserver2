@@ -67,10 +67,10 @@ $route['search'] = 'search';
 $route['basic_table'] = 'basic_table';
 $route['widgets'] = 'widgets';
 $route['chart_chartjs'] = 'chart_chartjs';
-
+$route['Send_order'] = 'Send_order';
 #$route['search/send_order'] = 'search/send_order';
-$route['search/set_pages'] = 'search/set_pages';
-$route['search/download'] = 'search/download';
+#$route['search/set_pages'] = 'search/set_pages';
+#$route['search/download'] = 'search/download';
 #$route['search/do_upload'] = 'search/do_upload';
 #$route['download/do_download'] = 'download/do_download';
 $route['404_override'] = '';

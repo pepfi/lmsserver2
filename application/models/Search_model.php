@@ -169,28 +169,48 @@ class Search_model extends CI_Model {
         $result = array();
         $n = 0;
         $uploadFlag = 0;
-        $query_del = $this->db->query("TRUNCATE TABLE tbl_ap_reg_infos");
-        if($query_del)
+        while($data = fgetcsv($handle))
         {
-            while($data = fgetcsv($handle))
+            if($data[0] == 'ap_mac')
             {
-                if($data[0] == 'ap_mac')
-                {
-                    continue;
-                }
-                $values = "('$data[0]','$data[1]','$data[2]','$data[3]','$data[4]','$data[5]','$data[6]','$data[7]','$data[8]','$data[9]','$data[10]','$data[11]','$data[12]','$data[13]','$data[14]','$data[15]','$data[16]','$data[17]','$data[18]','$data[19]','$data[20]','$data[21]','$data[22]','$data[23]','$data[24]','$data[25]','$data[26]','$data[27]','$data[28]','$data[29]','$data[30]','$data[31]','$data[32]','$data[33]','$data[34]','$data[35]','$data[36]','$data[37]','$data[38]','$data[39]','$data[40]','$data[41]','$data[42]','$data[43]','$data[44]')";
-                $sql = "insert into tbl_ap_reg_infos (ap_mac,ap_sn,ap_vendor,ap_model,ap_ver,pcba_model,pcba_version,hw_mac,hw_pn,hw_ver,memory_size,flash_size,flash_vendor,flash_psn,hdd_vendor,hdd_model,hdd_s_n,hdd_disksize,hdd_fw_ver,sd_model,sd_disksize,ext_wifi_model,ext_wifi_m_a_c,ext_wifi_s_n,c_wan_count,c_wan0_model,c_wan0_meid,c_wan0_fw_ver,c_wan0_iccid,c_wan0_carrier,c_wan1_model,c_wan1_meid,c_wan1_fw_ver,c_wan1_iccid,c_wan1_carrier,sw_ver,web_frame_ver,web_rsrc_ver,cfg_ver,last_login_time,last_login_lat,last_login_lng,first_login_time,first_login_lat,first_login_lng) values {$values}";
-                $query = $this->db->query($sql);
-                if(!$query)
-                {
-                    $uploadFlag = 1;
-                    return $uploadFlag;
-                }
+                continue;
             }
-            fclose($handle);
-            return $uploadFlag;
+            if($this->db->query("SELECT * from tbl_ap_reg_infos WHERE ap_mac = '{$data[0]}'"))
+            {
+                $this->db->query("UPDATA tbl_ap_reg_infos SET ap_sn='{$data[1]}',ap_vendor='{$data[2]}',ap_model='{$data[3]}',ap_ver='{$data[4]}',pcba_model='{$data[5]}',pcba_version='{$data[6]}',hw_mac='{$data[7]}',hw_pn='{$data[8]}',hw_ver='{$data[9]}',memory_size='{$data[10]}',flash_size='{$data[11]}',flash_vendor='{$data[12]}',flash_psn='{$data[13]}',hdd_vendor='{$data[14]}',hdd_model='{$data[15]}',hdd_s_n='{$data[16]}',hdd_disksize='{$data[17]}',hdd_fw_ver='{$data[18]}',sd_model='{$data[19]}',sd_disksize='{$data[20]}',ext_wifi_model='{$data[21]}',ext_wifi_m_a_c='{$data[22]}',ext_wifi_s_n='{$data[23]}',c_wan_count='{$data[24]}',c_wan0_model='{$data[25]}',c_wan0_meid='{$data[26]}',c_wan0_fw_ver='{$data[27]}',c_wan0_iccid='{$data[28]}',c_wan0_carrier='{$data[29]}',c_wan1_model='{$data[30]}',c_wan1_meid='{$data[31]}',c_wan1_fw_ver='{$data[32]}',c_wan1_iccid='{$data[33]}',c_wan1_carrier='{$data[34]}',sw_ver='{$data[35]}',web_frame_ver='{$data[36]}',web_rsrc_ver='{$data[37]}',cfg_ver='{$data[38]}',last_login_time='{$data[39]}',last_login_lat='{$data[40]}',last_login_lng='{$data[41]}',first_login_time='{$data[42]}',first_login_lat='{$data[43]}',first_login_lng='{$data[44]}' WHERE ap_mac='{$data[0]}'");
+            }
+            else
+            {
+                $this->db->query("insert into tbl_ap_reg_infos (ap_mac,ap_sn,ap_vendor,ap_model,ap_ver,pcba_model,pcba_version,hw_mac,hw_pn,hw_ver,memory_size,flash_size,flash_vendor,flash_psn,hdd_vendor,hdd_model,hdd_s_n,hdd_disksize,hdd_fw_ver,sd_model,sd_disksize,ext_wifi_model,ext_wifi_m_a_c,ext_wifi_s_n,c_wan_count,c_wan0_model,c_wan0_meid,c_wan0_fw_ver,c_wan0_iccid,c_wan0_carrier,c_wan1_model,c_wan1_meid,c_wan1_fw_ver,c_wan1_iccid,c_wan1_carrier,sw_ver,web_frame_ver,web_rsrc_ver,cfg_ver,last_login_time,last_login_lat,last_login_lng,first_login_time,first_login_lat,first_login_lng) values ('$data[0]','$data[1]','$data[2]','$data[3]','$data[4]','$data[5]','$data[6]','$data[7]','$data[8]','$data[9]','$data[10]','$data[11]','$data[12]','$data[13]','$data[14]','$data[15]','$data[16]','$data[17]','$data[18]','$data[19]','$data[20]','$data[21]','$data[22]','$data[23]','$data[24]','$data[25]','$data[26]','$data[27]','$data[28]','$data[29]','$data[30]','$data[31]','$data[32]','$data[33]','$data[34]','$data[35]','$data[36]','$data[37]','$data[38]','$data[39]','$data[40]','$data[41]','$data[42]','$data[43]','$data[44]')");
+            }
         }
     }
+//        $handle = fopen($filename,'r');
+//        $result = array();
+//        $n = 0;
+//        $uploadFlag = 0;
+//        $query_del = $this->db->query("TRUNCATE TABLE tbl_ap_reg_infos");
+//        if($query_del)
+//        {
+//            while($data = fgetcsv($handle))
+//            {
+//                if($data[0] == 'ap_mac')
+//                {
+//                    continue;
+//                }
+//                $values = "('$data[0]','$data[1]','$data[2]','$data[3]','$data[4]','$data[5]','$data[6]','$data[7]','$data[8]','$data[9]','$data[10]','$data[11]','$data[12]','$data[13]','$data[14]','$data[15]','$data[16]','$data[17]','$data[18]','$data[19]','$data[20]','$data[21]','$data[22]','$data[23]','$data[24]','$data[25]','$data[26]','$data[27]','$data[28]','$data[29]','$data[30]','$data[31]','$data[32]','$data[33]','$data[34]','$data[35]','$data[36]','$data[37]','$data[38]','$data[39]','$data[40]','$data[41]','$data[42]','$data[43]','$data[44]')";
+//                $sql = "insert into tbl_ap_reg_infos (ap_mac,ap_sn,ap_vendor,ap_model,ap_ver,pcba_model,pcba_version,hw_mac,hw_pn,hw_ver,memory_size='{$data[10]}',,flash_size,flash_vendor,flash_psn,hdd_vendor,hdd_model,hdd_s_n,hdd_disksize,hdd_fw_ver,sd_model,sd_disksize,ext_wifi_model,ext_wifi_m_a_c,ext_wifi_s_n,c_wan_count,c_wan0_model,c_wan0_meid,c_wan0_fw_ver,c_wan0_iccid,c_wan0_carrier,c_wan1_model,c_wan1_meid,c_wan1_fw_ver,c_wan1_iccid,c_wan1_carrier,sw_ver,web_frame_ver,web_rsrc_ver,cfg_ver,last_login_time,last_login_lat,last_login_lng,first_login_time,first_login_lat,first_login_lng) values {$values}";
+//                $query = $this->db->query($sql);
+//                if(!$query)
+//                {
+//                    $uploadFlag = 1;
+//                    return $uploadFlag;
+//                }
+//            }
+//            fclose($handle);
+//            return $uploadFlag;
+//        }
+//    }
     public function download_handle()
     {
         $total_count = $this->db->query("select * from tbl_ap_reg_infos")->num_rows();
@@ -208,7 +228,13 @@ class Search_model extends CI_Model {
     
     public function sendOrderHandle()
     {
-        
+        $Macs_order_string = $this->uri->segment(3);
+        $Macs_array = array();
+        $Macs_array = explode("_",$Macs_order_string);
+        return $Macs_array;
+//        return array(
+//            'Mac_name_array' => explode("_",$this->input->post('Mac_name_string')),
+//            'apOrderContent' => $this->input->post('aporderContent'));
     }
 }
 

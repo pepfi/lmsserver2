@@ -20,17 +20,20 @@ class Search extends CI_Controller {
     /*上传文件*/
     public function upload()
     {
+        echo "000";
+//        $i = 0;
+//        while(!(is_uploaded_file($_FILES['File1']['tmp_name'])))
+//        {
+//            $i++;
+//            echo $i;
+//        }
         $filename = $_FILES['File1']['tmp_name'];
-        echo $filename;
-        if(!isset($filename))
-        {
-            echo '请选择要导入的CSV文件!';
-            exit;
-        }
+        echo "222";
         $uploadFlag = $this->search_model->upload_handle($filename);
-        echo $uploadFlag;
-       // redirect('search');
-      
+        echo "333";
+        redirect('search');
+        echo "444";
+        
     }
     public function pagination()
     {    
@@ -72,7 +75,29 @@ class Search extends CI_Controller {
     
     public function sendOrder()
     {
-        
+        $mac_order_Array = $this->search_model->sendOrderHandle();
+        $totalNum = count($mac_order_Array);
+        $i = 0;
+        $perMacOrder = array();
+        for($i = 0; $i < ($totalNum - 1);$i++)
+        {
+            $perMacOrder = array(
+                'ApMac' => $mac_order_Array[$i],
+                'SlowCmd' => $mac_order_Array[$totalNum - 1]);
+            $ch = curl_init();
+            echo json_encode($perMacOrder);
+            $url = "http://lms1.autelan.com:8180/LMS/platform/lteCommand.do";
+            $data = json_encode($perMacOrder);
+            curl_setopt($ch,CURLOPT_POST,1);
+            curl_setopt($ch,CURLOPT_URL,$url);
+            curl_setopt($ch,CURLOPT_POSTFIELDS,$data);
+            curl_setopt($ch,CURLOPT_RETURNTRANSFER,1);
+            //curl_setopt($ch,CURLOPT_CONNECTTIMEOUT,$timeout);
+            curl_setopt($ch,CURLOPT_HEADER,false);
+            $file_contents = curl_exec($ch);
+            curl_close($ch);
+        }
+        return $file_contents;
     }
      
 }

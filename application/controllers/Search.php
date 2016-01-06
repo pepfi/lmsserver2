@@ -97,6 +97,7 @@ class Search extends CI_Controller {
             $file_contents = curl_exec($ch);
             curl_close($ch);
         }
+        redirect('search');
         return $file_contents;
     }
      

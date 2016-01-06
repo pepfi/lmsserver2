@@ -351,7 +351,7 @@
                             </div>
                           </div>
 <!--                          <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#order_Modal" data-whatever="@mdo" id="send_order_btn1">下发命令</button>-->
-                          <div class="col-md-1"><button type="button" class="btn btn-danger" onclick="openDiv('newDiv')">下发命令</button></div>
+                          <button type="button" class="btn btn-danger" onclick="openDiv('newDiv')">下发命令</button>
                           <div class="modal fade" id="order_Modal" tabindex="-1" role="dialog" aria-labelledby="order_ModalLabel" >
                             <div class="modal-dialog" role="document">
                                 <div class="modal-content">

@@ -12,7 +12,7 @@ class Login_model extends CI_Model {
        $this->db->where('password', MD5($this->input->post('password')));
        $this->db->where('blocked', "0");
 
-        $query = $this->db->get('users');
+        $query = $this->db->get('admin');
 
         if($query->num_rows() === 1)
         {

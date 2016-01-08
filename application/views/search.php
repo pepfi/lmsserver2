@@ -517,14 +517,14 @@
         newDiv.style.position = "absolute";//新弹出层位置
         newDiv.style.zIndex = "9999";//新弹出层zIndex
  
-        newDiv.style.width = newDivWidth + "px";//新弹出层宽度
+        newDiv.style.width = 430 + "px";//新弹出层宽度
         newDiv.style.height = newDivHeight + "px";//新弹出层高度
-        var newDivtop=(document.body.scrollTop + document.body.clientHeight/2 
-            - newDivHeight/2) ;//新弹出层距离上边距离
+        var newDivtop=(document.body.scrollTop + document.body.clientHeight /6 )
+        //    - newDivHeight/2) ;//新弹出层距离上边距离
         var newDivleft=(document.body.scrollLeft + document.body.clientWidth/2 
             - newDivWidth/2);//新弹出层距离左边距离
         newDiv.style.top = newDivtop+ "px";//新弹出层距离上边距离
-        newDiv.style.left = newDivleft + "px";//新弹出层距离左边距离
+        newDiv.style.left = 470 + "px";//新弹出层距离左边距离
         newDiv.style.background = "#337ab7";//新弹出层背景色
         newDiv.style.border = "1px solid #337ab7";///新弹出层边框样式
         newDiv.style.padding = "5px";//新弹出层
@@ -555,8 +555,9 @@
     var newA = document.createElement("span");
     newA.href = "#";
     newA.style.position = "absolute";//span位置
-    newA.style.left=370+ "px";
+    newA.style.left= 350 + "px";
 	newA.style.background = '';
+    newA.style.color = 'black';
     newA.innerHTML = "关闭";
     newA.onclick = function()//处理关闭事件
     {
@@ -580,25 +581,26 @@
     Order_title.style.left=5+ "px";
 	Order_title.style.width = 200 + 'px';
 	Order_title.style.height = 20 + 'px';
+    Order_title.style.color = 'black'
 	Order_title.style.background = '';
     Order_title.innerHTML = "Order";
     newDiv.appendChild(Order_title);//添加关闭span
 	//弹出层追加内容2	
     var order_Div = document.createElement("span");
     order_Div.style.position = "absolute";//span位置
-    order_Div.style.left=5+ "px";
+    order_Div.style.left= 5 + "px";
 	order_Div.style.top = 33 + 'px';
-	order_Div.style.width = 390 + 'px';
-	order_Div.style.height = 50 + 'px';
+	order_Div.style.width = 350 + 'px';
+	order_Div.style.height = 350 + 'px';
 	order_Div.style.background = '';
     order_Div.innerHTML = "<textarea rows='3' cols='52'>";
     newDiv.appendChild(order_Div);//添加关闭span
 	//弹出层追加内容3	
     var submit_Div = document.createElement("span");
     submit_Div.style.position = "absolute";//span位置
-    submit_Div.style.left=5+ "px";
-	submit_Div.style.top = 100 + 'px';
-	submit_Div.style.width = 390 + 'px';
+    submit_Div.style.left= 320 + "px";
+	submit_Div.style.top = 120 + 'px';
+	submit_Div.style.width = 50 + 'px';
 	submit_Div.style.height = 25 + 'px';
 	submit_Div.style.background = '';
     submit_Div.innerHTML = "<input type='submit' name='publish_order' value='下发命令'>";
@@ -630,6 +632,17 @@
         return Mac_name_string;
     }
   </script>
+      
+<!--
+  <script type="text/javascript">
+  function unvailMacFunc(id){
+      if (window.confirm("如下设备有未执行命令")) {
+          window.location="del_admin/"+id;
+      }
+  }
+  </script>
+-->
+      
   <script src="<?php echo base_url('resource/js/scripts.js');?>"></script>
   </body>
 </html>

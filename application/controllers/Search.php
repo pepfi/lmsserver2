@@ -40,6 +40,7 @@ class Search extends CI_Controller {
         if($this->input->post('perPageNum') != null)
         {
             $_SESSION['perPageNum'] = $this->input->post('perPageNum');
+            echo $_SESSION['perPageNum'];
         }
         if($this->input->post('jumpPageNum') == null)
         {
@@ -75,30 +76,65 @@ class Search extends CI_Controller {
     
     public function sendOrder()
     {
-        $mac_order_Array = $this->search_model->sendOrderHandle();
+        $mac_order_Array = $this->search_model->getMacHandle();
         $totalNum = count($mac_order_Array);
         $i = 0;
+        $j = 0;
+        $data['unvailMac'] = '';
         $perMacOrder = array();
+        $unvailMacOrder = array();
+        $unvailMac = '';
         for($i = 0; $i < ($totalNum - 1);$i++)
         {
+            $result = $this->db->query("SELECT * from tbl_ap_slow_cmds WHERE ap_mac='{$mac_order_Array[$i]}'")->result_array();
+            if($result)
+            {
+                $unvailMacOrder[$j] = $mac_order_Array[$i];
+                $j++;
+                continue;
+            }
             $perMacOrder = array(
                 'ApMac' => $mac_order_Array[$i],
                 'SlowCmd' => $mac_order_Array[$totalNum - 1]);
             $ch = curl_init();
             echo json_encode($perMacOrder);
             $url = "http://lms1.autelan.com:8180/LMS/platform/lteCommand.do";
-            $data = json_encode($perMacOrder);
+            $data_json = json_encode($perMacOrder);
             curl_setopt($ch,CURLOPT_POST,1);
             curl_setopt($ch,CURLOPT_URL,$url);
-            curl_setopt($ch,CURLOPT_POSTFIELDS,$data);
+            curl_setopt($ch,CURLOPT_POSTFIELDS,$data_json);
             curl_setopt($ch,CURLOPT_RETURNTRANSFER,1);
             //curl_setopt($ch,CURLOPT_CONNECTTIMEOUT,$timeout);
             curl_setopt($ch,CURLOPT_HEADER,false);
             $file_contents = curl_exec($ch);
             curl_close($ch);
         }
-        redirect('search');
-        return $file_contents;
+        if($j >= 1)
+        {
+            for($k = 0; $k < $j; $k++)
+            {
+                $data['unvailMac'] .= $unvailMacOrder[$k];
+                $data['unvailMac'] .= ",";
+            }
+            $this->load->view('failMac',$data);
+        }
+        else
+        {
+            redirect('search',$unvailMac);
+            return $file_contents;
+        }
     }
+    
+//    public function delDevice()
+//    {
+//        $mac_Array = $this->search_model->getMacHandle();
+//        $data['Mac'] = '';
+//        $totalNum = count($mac_Array);
+//        for($i = 0; $i < ($totalNum - 1); $i++)
+//        {
+//            $query = $this->db->query("DELETE * from tbl_ap_slow_cmds WHERE ap_mac='{$mac_Array[$i]}'");
+//        }
+//        redirect('search');
+//    }
      
 }

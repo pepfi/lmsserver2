@@ -226,15 +226,12 @@ class Search_model extends CI_Model {
         return $str;
     } 
     
-    public function sendOrderHandle()
+    public function getMacHandle()
     {
         $Macs_order_string = $this->uri->segment(3);
         $Macs_array = array();
         $Macs_array = explode("_",$Macs_order_string);
         return $Macs_array;
-//        return array(
-//            'Mac_name_array' => explode("_",$this->input->post('Mac_name_string')),
-//            'apOrderContent' => $this->input->post('aporderContent'));
     }
 }
 

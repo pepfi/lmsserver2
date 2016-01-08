@@ -6,19 +6,28 @@ class Login extends CI_Controller {
     {
         parent::__construct();
 
-        $this->load->model('Login_model');
-       // $this->load->library('form_validation');
-       // $this->load->helper('form');
-       // $this->load->helper('url');
-        
+        $this->load->model('Login_model');        
         $this->load->model('Home_model');
-        /*session&cookie start by wmg*/
-       // $this->load->library('session');
-       // $this->load->helper('cookie');
-       // $this->load->helper('array');
-        /*session&cookie end by wmg*/
-            
     }
+    
+    function ip_ownership($ipstring, $ip_start, $ip_end, $region) {
+        $ipstring_array = explode(".", $ipstring);
+        $ip_start = explode(".", $ip_start);
+        $ip_end = explode(".", $ip_end);
+        //print_r($ip_array);
+        if ($ipstring_array[0] == $ip_start[0]) {
+            if ($ipstring_array[1] == $ip_start[1]) {
+                if ($ipstring_array[2] >= $ip_start[2] and $ipstring_array[2] <= $ip_end[2]) {
+                    if ($ipstring_array[3] >= $ip_start[3] and $ipstring_array[3] <= $ip_end[3])                     {
+                        return $region;
+                    }
+                }
+            }
+        }
+        
+        return 0;
+    }
+    
     
     function index()
     {
@@ -634,7 +643,6 @@ class Login extends CI_Controller {
             }
             /* set cookie end */
          
-
             $data['region_status'] = $this->Home_model->get_region_status();
             $data['province'] = array(array('dev' => 0, 'online' => 0, 'name' => '北京'),
                                      array('dev' => 0, 'online' => 0, 'name' => '天津'),
@@ -896,8 +904,7 @@ class Login extends CI_Controller {
             $data['dev_account'] = 0;
             for ($i = 0; $i < 34; $i++) {
                 $data['dev_account'] = $data['dev_account'] + $data['province'][$i]['online'];
-            }
-            
+            }     
             $this->load->view("home", $data);
            
         }

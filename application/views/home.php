@@ -85,10 +85,10 @@
                             <div class="log-arrow-up"></div>
                             <!--editor wmg-->
                             <li class="eborder-top">
-                                <a href="/all"><i class="icon_profile"></i>查看管理员</a>
+                                <a href="admin_oper/list_admin"><i class="icon_profile"></i>查看管理员</a>
                             </li>
                             <li>
-                                <a href="/add" target="_self"><i class="icon_mail_alt"></i>添加管理员</a>
+                                <a href="admin_oper/add_admin" target="_self"><i class="icon_mail_alt"></i>添加管理员</a>
                             </li>
 
                             <li>
@@ -164,7 +164,7 @@
 			</div>
               
             <div class="row">
-				<div class="col-lg-3 col-md-3 col-sm-12 col-xs-12">
+				<div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
 					<div class="info-box blue-bg">
 						<!-- <i class="fa fa-cloud-download"></i> -->
 						<div class="count"><?php echo $dev_account;?></div>
@@ -172,7 +172,7 @@
 					</div><!--/.info-box-->			
 				</div><!--/.col-->
 				
-				<div class="col-lg-3 col-md-3 col-sm-12 col-xs-12">
+				<div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
 					<div class="info-box brown-bg">
 						<!-- <i class="fa fa-shopping-cart"></i> -->
 						<div class="count">115200</div>
@@ -180,7 +180,7 @@
 					</div><!--/.info-box-->			
 				</div><!--/.col-->	
 				
-				<div class="col-lg-3 col-md-3 col-sm-12 col-xs-12">
+				<div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
 					<div class="info-box dark-bg">
 						<!-- <i class="fa fa-thumbs-o-up"></i> -->
 						<div class="count">1111</div>
@@ -191,7 +191,7 @@
 
 			</div><!--/.row-->
 		
-            <!--map start by wmg-->  
+            <!--map start by wmg-->
            <div id="mymap" tabindex="0">
                         
                 <!-- process data for map-->
@@ -288,7 +288,7 @@
 				
 			<div class="row">
                	
-				<div class="col-lg-9 col-md-12">	
+				<div class="col-md-12">	
 					<div class="panel panel-default">
 						<div class="panel-heading">
 							<h2><strong>Registered Users</strong></h2>
@@ -327,7 +327,6 @@
                                                             echo "<div class='progress-bar progress-bar-warning' style='width:".$offline_rate."%'></div>";
                                                         echo "</div>";
                                                     echo "</td>";
-
                                                 echo "</tr>";
                                         }
                                     ?>
@@ -402,7 +401,6 @@
 	<script src="<?php echo base_url('resource/js/charts.js');?>"></script>
 	<script src="<?php echo base_url('resource/js/jquery.slimscroll.min.js');?>"></script>
   <script>
-
       //knob
       $(function() {
         $(".knob").knob({
@@ -411,7 +409,6 @@
           }
         })
       });
-
       //carousel
       $(document).ready(function() {
           $("#owl-slider").owlCarousel({
@@ -419,12 +416,9 @@
               slideSpeed : 300,
               paginationSpeed : 400,
               singleItem : true
-
           });
       });
-
       //custom select box
-
       $(function(){
           $('select.styled').customSelect();
       });
@@ -446,9 +440,6 @@
 	    }
 	  });
 	});
-
-
-
   </script>
 
   </body>
